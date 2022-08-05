@@ -90,18 +90,18 @@ while f:
         iffn = iffn.replace('"','')
         iffn = iffn.split()
 
-        
-        if newlist[2] == 'then' or newlist[2] == 't':
-            if newlist[3]:
-                print(newlist[3])
-        if newlist[2] == 'thenop' or newlist[2] == 'top':
-            if '+' in newlist[3]:
+        if iffn[1] == val:
+            if newlist[2] == 'then' or newlist[2] == 't':
+                if newlist[3]:
+                    print(newlist[3])
+            if newlist[2] == 'thenop' or newlist[2] == 'top':
+                if '+' in newlist[3]:
                 
-            if '-' in newlist[3]:
+                if '-' in newlist[3]:
                
-            if '/' in newlist[3]:
+                if '/' in newlist[3]:
                     
-            if 'x' in newlist[3]:
+                if 'x' in newlist[3]:
                     
     if checkpoint == '>':
         #need to rewrite
