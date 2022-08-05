@@ -5,11 +5,12 @@ f = open('code.mlt', 'r')
 
 def basic_enum():
         replaceop = stringcheck.replace('op', '')
-        replaceop2 = replaceop.replace(' ', '')
-        replaceop3 = replaceop2.replace('\n', '')
-        operation = list(replaceop3)
+        replaceop = replaceop.replace(' ', '')
+        replaceop = replaceop.replace('\n', '')
+        operation = list(replaceop)
         if '+' in operation:
-            replaceop4 = replaceop3.replace(' ', '')
+            replaceop4
+ = replaceop3.replace(' ', '')
             number = replaceop4.split('+')
             newnumber = map(int,number)
             newnumberlist = list(newnumber)
@@ -18,30 +19,30 @@ def basic_enum():
             print(eval('x + y'))
 
         if '-' in operation:
-            replaceop4 = replaceop3.replace(' ', '')
-            number = replaceop4.split('-')
-            newnumber = map(int,number)
-            newnumberlist = list(newnumber)
-            x = newnumberlist[0]
-            y = newnumberlist[1]
+            replaceop = replaceop.replace(' ', '')
+            replaceop = replaceop.split('-')
+            replaceop = map(int,replaceop)
+            replaceop = list(replaceop)
+            x = replaceop[0]
+            y = replaceop[1]
             print(eval('x - y'))
 
         if '/' in operation:
-            replaceop4 = replaceop3.replace(' ', '')
-            number = replaceop4.split('/')
-            newnumber = map(int,number)
-            newnumberlist = list(newnumber)
-            x = newnumberlist[0]
-            y = newnumberlist[1]
+            replaceop = replaceop.replace(' ', '')
+            replaceop = replaceop.split('/')
+            replaceop = map(int,replaceop)
+            replaceop = list(replaceop)
+            x = replaceop[0]
+            y = replaceop[1]
             print(eval('x / y'))
 
         if 'x' in operation:
-            replaceop4 = replaceop3.replace(' ', '')
-            number = replaceop4.split('x')
-            newnumber = map(int,number)
-            newnumberlist = list(newnumber)
-            x = newnumberlist[0]
-            y = newnumberlist[1]
+            replaceop = replaceop.replace(' ', '')
+            replaceop  = replaceop.split('x')
+            replaceop = map(int,replaceop)
+            replaceop = list(replaceop)
+            x = replaceop[0]
+            y = replaceop[1]
             print(eval('x * y'))
 while f:
 
