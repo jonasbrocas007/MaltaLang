@@ -1,3 +1,9 @@
 # MaltaLang
 The MaltaLang proper language.  
-Edit: i am dropping this project for a time
+contains:  
+print         | yes
+operations    | yes
+variables     | yes
+conditions    | yes
+loops         | yes
+error messages| no
