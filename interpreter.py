@@ -83,6 +83,16 @@ for var_checker in read:
         readvar = readvar.split('=')
         for i in range(1):
             allvarlist.append(readvar)
+            allvarlist = str(allvarlist)
+            allvarlist = allvarlist.replace(' ','')
+            allvarlist = allvarlist.split(',')
+            allvarlist = str(allvarlist)
+            allvarlist = allvarlist.replace('[','')
+            allvarlist = allvarlist.replace(']','')
+            allvarlist = allvarlist.replace('"','')
+            allvarlist = allvarlist.replace("'",'')
+            allvarlist = allvarlist.replace(' ','')
+            allvarlist = allvarlist.split(',')
         
 for cout_checker in read:
     read_cout += 1
@@ -92,20 +102,8 @@ for cout_checker in read:
         findlist += 1
         readline = readline.replace('\n','')
         readline = readline.split('>')
-        allvarlist = str(allvarlist)
-        allvarlist = allvarlist.replace(' ','')
-        allvarlist = allvarlist.split(',')
-        allvarlist = str(allvarlist)
-        allvarlist = allvarlist.replace('[','')
-        allvarlist = allvarlist.replace(']','')
-        allvarlist = allvarlist.replace('"','')
-        allvarlist = allvarlist.replace("'",'')
-        allvarlist = allvarlist.replace(' ','')
-        allvarlist = allvarlist.split(',')
         varprint = allvarlist.index(readline[1])
         varprint = varprint + 1
-        #print(varprint)
-        #print(readline)
         print(allvarlist[varprint])
 
 for if_checker in read:
@@ -118,6 +116,11 @@ for if_checker in read:
         readif = readif.replace(' ','')
         readif = readif.split(':')
         print(readif[0])
+        readvar = readvar.split('=')
+        readvarcheck = allvarlist.index(readvar[0])
+        if readvar[readvarcheck] == allvarlistf[readvarcheck]:
+            if readvar[readvarcheck + 1] == allvarlistf[readvarcheck + 1]:
+                print(readif[1])
 
 
             
