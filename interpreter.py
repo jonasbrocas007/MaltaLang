@@ -2,109 +2,127 @@ if not __name__ == "__main__":
     exit("ERROR: The MAL interpreter should not be run as a library!")
 from enum import Enum
 f = open('code.mlt', 'r')
+read_header = -1
+read_op = -1
+read_end = -1
+read_var = -1
+read_cout = -1
+var_count = -1
+if_count = -1
+findvar = 0
+findlist = 1
+checker = '.'
+op_checker = 'op'
+end_checker = 'END'
+var_checker = '<'
+cout_checker = '>'
+if_checker = 'if'
+allvarlist = []
+rows = []
+read = f.readlines()
 
-def basic_enum():
-        replaceop = stringcheck.replace('op', '')
-        replaceop = replaceop.replace(' ', '')
-        replaceop = replaceop.replace('\n', '')
-        operation = list(replaceop)
-        if '+' in operation:
-            replaceop = replaceop.replace(' ', '')
-            number = replaceop.split('+')
-            replaceop = map(int,replaceop)
-            replaceop = list(replaceop)
-            x = replaceop[0]
-            y = replaceop[1]
+for checker in read:
+    read_header += 1
+    readline = read[read_header]
+    if readline[0] == ".":
+        readpoint = readline.replace('.', '')
+        readpoint = readpoint.replace('\n', '')
+        print(readpoint)
+        if '>' in readline:
+            print('debug,yes')
+
+for op_checker in read:
+    read_op += 1
+    readline = read[read_op]
+    if readline[:2] == 'op':
+        countprep = str(readline)
+        countprep = countprep.replace('op', '')
+        countprep = countprep.replace(' ', '')
+        countprep = countprep.replace('\n', '')
+
+        if '+' in countprep:
+            add = countprep.replace(' ', '')
+            add = add.split('+')
+            add = map(int,add)
+            add = list(add)
+            x = add[0]
+            y = add[1]
             print(eval('x + y'))
-
-        if '-' in operation:
-            replaceop = replaceop.replace(' ', '')
-            replaceop = replaceop.split('-')
-            replaceop = map(int,replaceop)
-            replaceop = list(replaceop)
-            x = replaceop[0]
-            y = replaceop[1]
+        if '-' in countprep:
+            sub = countprep.replace(' ', '')
+            sub = sub.split('-')
+            sub = map(int,sub)
+            sub = list(sub)
+            x = sub[0]
+            y = sub[1]
             print(eval('x - y'))
-
-        if '/' in operation:
-            replaceop = replaceop.replace(' ', '')
-            replaceop = replaceop.split('/')
-            replaceop = map(int,replaceop)
-            replaceop = list(replaceop)
-            x = replaceop[0]
-            y = replaceop[1]
+        if 'x' in countprep:
+            mul = countprep.replace(' ', '')
+            mul = mul.split('x')
+            mul = map(int,mul)
+            mul = list(mul)
+            x = mul[0]
+            y = mul[1]
+            print(eval('x * y'))
+        if '/' in countprep:
+            div = countprep.replace(' ', '')
+            div = div.split('/')
+            div = map(int,div)
+            div = list(div)
+            x = div[0]
+            y = div[1]
             print(eval('x / y'))
 
-        if 'x' in operation:
-            replaceop = replaceop.replace(' ', '')
-            replaceop  = replaceop.split('x')
-            replaceop = map(int,replaceop)
-            replaceop = list(replaceop)
-            x = replaceop[0]
-            y = replaceop[1]
-            print(eval('x * y'))
-while f:
-
-    stringcheck = f.readline(100000)
-    checkpoint= stringcheck[:1]
-    checkend= stringcheck[:3]
-    checkop = stringcheck[:2]
-    checknum = stringcheck[:9999999999999999999999]
-
-    if checkpoint == ".":
-        replace = stringcheck.replace('.', '')
-        replace = replace.replace('\n', '')
-        print (replace)
-
-    if checkend == 'END':
-            f.close()
-            break
-    if checkend == '':
-        pass
-    if checkop == "op":
-        basic_enum()
-
-    if checkpoint == '<':
-        #this was not working at all, need to rewrite
+for var_checker in read:
+    read_var += 1
+    readline = read[read_var]
+    if readline[:1] == '<':
+        var_count += 1
+        readvar = readline.replace('\n','')
+        readvar = readvar.replace('<','')
+        readvar = readvar.split('=')
+        for i in range(1):
+            allvarlist.append(readvar)
         
-#if algo = 1, then .mekie
-    if checkop == 'if':
-        iffn = stringcheck.replace('if', '')
-        iffn = iffn.replace('\n', '')
-        iffn = iffn.split('=')
-        iffn = str(iffn)
-        iffn = iffn.replace("'",'')
-        iffn = iffn.replace('[','')
-        iffn = iffn.replace(']','')
-        iffn = iffn.replace(' ','')
-        iffn = iffn.split(',')
-        iffn = iffn.replace(' ','')
-        iffn = str(iffn)
+for cout_checker in read:
+    read_cout += 1
+    readline = read[read_cout]
+    if readline[0] == '>':
+        findvar += 1
+        findlist += 1
+        readline = readline.replace('\n','')
+        readline = readline.split('>')
+        allvarlist = str(allvarlist)
+        allvarlist = allvarlist.replace(' ','')
+        allvarlist = allvarlist.split(',')
+        allvarlist = str(allvarlist)
+        allvarlist = allvarlist.replace('[','')
+        allvarlist = allvarlist.replace(']','')
+        allvarlist = allvarlist.replace('"','')
+        allvarlist = allvarlist.replace("'",'')
+        allvarlist = allvarlist.replace(' ','')
+        allvarlist = allvarlist.split(',')
+        varprint = allvarlist.index(readline[1])
+        varprint = varprint + 1
+        #print(varprint)
+        #print(readline)
+        print(allvarlist[varprint])
 
-        iffn = iffn.split('.')
-        iffn = str(iffn)
-        iffn = iffn.replace("'",'')
-        iffn = iffn.replace('[','')
-        iffn = iffn.replace(']','')
-        iffn = iffn.replace(',','')
-        iffn = iffn.replace('"','')
-        iffn = iffn.split()
+for if_checker in read:
+    if_count += 1
+    readline = read[if_count]
+    if readline[:2] == 'if':
+        readif = readline.replace('\n','')
+        readif = readif.replace('if','')
+        readif = readif.replace('<','')
+        readif = readif.replace(' ','')
+        readif = readif.split(':')
+        print(readif[0])
 
-        if iffn[1] == val:
-            if newlist[2] == 'then' or newlist[2] == 't':
-                if newlist[3]:
-                    print(newlist[3])
-            if newlist[2] == 'thenop' or newlist[2] == 'top':
-                if '+' in newlist[3]:
-                
-                if '-' in newlist[3]:
-               
-                if '/' in newlist[3]:
-                    
-                if 'x' in newlist[3]:
-                    
-    if checkpoint == '>':
-        #need to rewrite
 
-                    
-        
+            
+for end_checker in read:
+    read_end += 1
+    readline = read[read_end]
+    if readline[:3] == 'END':
+        f.close()
