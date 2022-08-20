@@ -9,7 +9,8 @@ read_var = -1
 read_cout = -1
 var_count = -1
 if_count = -1
-read_goto = -1
+read_loop = -1
+read_input = -1
 #ifs
 fread_header = -1
 fread_op = -1
@@ -24,7 +25,8 @@ end_checker = 'END'
 var_checker = '<'
 cout_checker = '>'
 if_checker = 'if'
-goto_checker = '&'
+loop_checker = 'lp'
+input_checker = ''
 allvarlist = []
 rows = []
 read = f.readlines()
@@ -37,6 +39,7 @@ for checker in read:
         print(readpoint)
         if '>' in readline:
             print('debug,yes')
+
 for op_checker in read:
     read_op += 1
     readline = read[read_op]
@@ -170,19 +173,77 @@ for end_checker in read:
     if readline[:3] == 'END':
         f.close()
 
-for goto_checker in read:
-    read_goto += 1
-    readline = read[read_goto]
-    if readline[0] == '&':
-        goto = readline.replace('\n','')
-        goto = goto.split('&')
-        goto_var = int(goto[1])
-        read_header = goto_var
-        read_op = goto_var
-        read_end = goto_var
-        read_var = goto_var
-        read_cout = goto_var
-        var_count = goto_var
-        if_count = goto_var
-        read_goto = goto_var
-    
+for loop_checker in read:
+    read_loop += 1
+    readline = read[read_loop]
+    if readline[:2] == 'lp':
+        readlp = readline.replace('lp','')
+        readlp = readlp.replace('\n','')
+        readlp = readlp.replace(' ','')
+        readlp = readlp.split('/')
+        loopnumber = int(readlp[1])
+        if '.' in readline:
+            readlp = str(readlp[0])
+            readlp = readlp.replace('.','')
+            while loopnumber > 0:
+                loopnumber -= 1
+                print(readlp)
+        if '>' in readline:
+            readlp = str(readlp[0])
+            readline = readline.replace('\n','')
+            readline = readline.replace('lp','')
+            readline = readline.replace('>','')
+            readline = readline.replace(' ','')
+            readline = readline.split('/')
+            while loopnumber > 0:
+                loopnumber -= 1
+                varprint = allvarlistf.index(readline[0])
+                varprint = varprint + 1
+                print(allvarlistf[varprint])
+
+    if readline[:3] == 'lpo':
+        readlp = readline.replace('lpo','')
+        readlp = readlp.replace('\n','')
+        readlp = readlp.replace(' ','')
+        readlp = readlp.split('/')
+        loopnumber = int(readlp[1])
+        if '+' in readline:
+            while loopnumber > 0:
+                loopnumber -= 1
+                add = readlp[0]
+                add = add.split('+')
+                add = map(int,add)
+                add = list(add)
+                x = add[0]
+                y = add[1]
+                print(eval('x + y'))
+        if '-' in readline:
+            while loopnumber > 0:
+                loopnumber -= 1
+                add = readlp[0]
+                add = add.split('-')
+                add = map(int,add)
+                add = list(add)
+                x = add[0]
+                y = add[1]
+                print(eval('x - y'))
+        if 'x' in readline:
+            while loopnumber > 0:
+                loopnumber -= 1
+                add = readlp[0]
+                add = add.split('x')
+                add = map(int,add)
+                add = list(add)
+                x = add[0]
+                y = add[1]
+                print(eval('x * y'))
+        if '/' in readline:
+            while loopnumber > 0:
+                loopnumber -= 1
+                add = readlp[0]
+                add = add.split('/')
+                add = map(int,add)
+                add = list(add)
+                x = add[0]
+                y = add[1]
+                print(eval('x / y'))
