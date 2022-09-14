@@ -6,7 +6,7 @@ operations    | yes
 variables     | yes  
 conditions    | yes  
 loops         | yes  
-error messages| no  
+error messages| kinda   
 
 print Hello World:  
 .Hello World  
