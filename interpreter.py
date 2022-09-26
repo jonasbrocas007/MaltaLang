@@ -1,7 +1,13 @@
 if not __name__ == "__main__":
     exit("ERROR: The MAL interpreter should not be run as a library!")
 from enum import Enum
-f = open('code.mlt', 'r')
+#for count the application runtime
+#from datetime import datetime
+#start_time = datetime.now()
+
+import sys
+f = open(sys.argv[1], 'r')
+import time
 read_header = -1
 read_op = -1
 read_end = -1
@@ -11,6 +17,8 @@ var_count = -1
 if_count = -1
 read_loop = -1
 read_input = -1
+input_count = -1
+input_check = -1
 #ifs
 fread_header = -1
 fread_op = -1
@@ -19,30 +27,45 @@ fread_var = -1
 fread_cout = -1
 fvar_count = -1
 
-checker = '.'
-op_checker = 'op'
-end_checker = 'END'
-var_checker = '<'
-cout_checker = '>'
-if_checker = 'if'
-loop_checker = 'lp'
-input_checker = ''
+line = 0
 allvarlist = []
+result = []
 rows = []
 read = f.readlines()
-for checker in read:
-    read_header += 1
-    readline = read[read_header]
+stamplist = []
+while True:
+    
+    
+    readline = read[line]
+
+    if readline[0] == ':':
+        readstamp = readline.replace('\n', '')
+        readstamp = readstamp.replace(',', '')
+        readstamp = readstamp.replace('[', '')
+        readstamp = readstamp.replace(']', '')
+        readstamp = readstamp.replace("'", '')
+        readstamp = readstamp.replace(":", '')
+        readstamp = readstamp.split(' ')
+        stamplist.append(readstamp[0])
+
+    if readline[:4] == 'goto':
+        goto = readline.replace('goto','')
+        goto = goto.replace('\n','')
+        goto = goto.replace(' ','')
+        number = goto.isdigit()
+        if number == True:
+            goto = int(goto)
+            line = goto -2
+        else:
+            goto = stamplist.index(goto)
+            line = goto
+
     if readline[0] == ".":
         readpoint = readline.replace('.', '')
         readpoint = readpoint.replace('\n', '')
         print(readpoint)
-        if '>' in readline:
-            print('debug,yes')
 
-for op_checker in read:
-    read_op += 1
-    readline = read[read_op]
+
     if readline[:2] == 'op':
         countprep = str(readline)
         countprep = countprep.replace('op', '')
@@ -81,15 +104,22 @@ for op_checker in read:
             x = div[0]
             y = div[1]
             print(eval('x / y'))
-for var_checker in read:
-    read_var += 1
-    readline = read[read_var]
+        if '^' in countprep:
+            div = countprep.replace(' ', '')
+            div = div.split('^')
+            div = map(int,div)
+            div = list(div)
+            x = div[0]
+            y = div[1]
+            print(eval('x ** y'))
     if readline[:1] == '<':
         var_count += 1
         readvar = readline.replace('\n','')
         readvar = readvar.replace('<','')
         readvar = readvar.split('=')
         for i in range(1):
+            #var_count += 1
+            #print(var_count,'var')
             allvarlist.append(readvar)
             allvarlist = str(allvarlist)
             allvarlist = allvarlist.replace(' ','')
@@ -100,82 +130,664 @@ for var_checker in read:
             allvarlist = allvarlist.replace('"','')
             allvarlist = allvarlist.replace("'",'')
             allvarlist = allvarlist.replace(' ','')
-            allvarlistf = allvarlist.split(',')
+            allvarlist = allvarlist.split(',')
+            #print(allvarlist)
 
-for cout_checker in read:
-    read_cout += 1
-    readline = read[read_cout]
-    if readline[0] == '>':
+    if readline[:1] == '$':
         readline = readline.replace('\n','')
+        readline = readline.split('$')
+        readline = str(readline)
+        readline = readline.replace('[','')
+        readline = readline.replace(']','')
+        readline = readline.replace(',','')
+        readline = readline.replace("'",'')
+        readline = readline.replace(" ",'')
+        var = allvarlist.index(readline)
+        newvar = var + 1
+        allvarlist[newvar] = input()
+        input_check += 1
+    #print('yes')   
+    if readline[:1] == '>':
+        #print('yes')
+        readline = readline.replace('\n','')
+        readline = readline.replace(' ','')
         readline = readline.split('>')
         varprint = allvarlist.index(readline[1])
         varprint = varprint + 1
         print(allvarlist[varprint])
 
-for if_checker in read:
-    if_count += 1
-    readline = read[if_count]
+    if readline[:2] == 'ov':
+        countprep = str(readline)
+        countprep = countprep.replace('ov', '')
+        countprep = countprep.replace(' ', '')
+        countprep = countprep.replace('\n', '')
+        if '+' in countprep:
+            add = countprep.replace(' ', '')
+            add = add.split('+')
+            reset = str(add)
+            reset = reset.replace('[', '')
+            reset = reset.replace(']', '')
+            reset = reset.replace("'", '')
+            reset = reset.replace(" ", '')
+            reset = reset.replace(",", '')
+            out = reset.split('>>')
+            out = out[1]
+            var = allvarlist.index(out)
+            var = var + 1
+            add = reset
+            if add[0] in allvarlist:
+                x = allvarlist.index(add[0])
+                x = x + 1
+                x = allvarlist[x]
+                if add[1] in allvarlist:
+                    y = allvarlist.index(add[1])
+                    y = y + 1
+                    y = allvarlist[y]
+                    x = int(x)
+                    y = int(y)
+                    result = eval('x + y')
+                    result = str(result)
+                    allvarlist[var] = result
+                    
+        if '-' in countprep:
+            sub = countprep.replace(' ', '')
+            sub = sub.split('-')
+            reset = str(sub)
+            reset = reset.replace('[', '')
+            reset = reset.replace(']', '')
+            reset = reset.replace("'", '')
+            reset = reset.replace(" ", '')
+            reset = reset.replace(",", '')
+            out = reset.split('>>')
+            out = out[1]
+            variable = allvarlist.append(out)
+            sub = reset
+            if sub[0] in allvarlist:
+                x = allvarlist.index(sub[0])
+                x = x + 1
+                x = allvarlist[x]
+                if sub[1] in allvarlist:
+                    y = allvarlist.index(sub[1])
+                    y = y + 1
+                    y = allvarlist[y]
+                    x = int(x)
+                    y = int(y)
+                    #print(eval('x - y'))
+                    result = eval('x - y')
+                    result = str(result)
+                    allvarlist[var] = result
+        if countprep[1] == 'x':
+            mul = countprep.replace(' ', '')
+            mul = mul.split('x')
+            reset = str(mul)
+            reset = reset.replace('[', '')
+            reset = reset.replace(']', '')
+            reset = reset.replace("'", '')
+            reset = reset.replace(" ", '')
+            reset = reset.replace(",", '')
+            out = reset.split('>>')
+            out = out[1]
+            variable = allvarlist.append(out)
+            #print(allvarlist)
+            mul = reset
+            if mul[0] in allvarlist:
+                x = allvarlist.index(mul[0])
+                x = x + 1
+                x = allvarlist[x]
+                if mul[1] in allvarlist:
+                    y = allvarlist.index(mul[1])
+                    y = y + 1
+                    y = allvarlist[y]
+                    x = int(x)
+                    y = int(y)
+                    result = eval('x * y')
+                    result = str(result)
+                    allvarlist[var] = result
+
+        if '/' in countprep:
+            div = countprep.replace(' ', '')
+            div = div.split('/')
+            reset = str(div)
+            reset = reset.replace('[', '')
+            reset = reset.replace(']', '')
+            reset = reset.replace("'", '')
+            reset = reset.replace(" ", '')
+            reset = reset.replace(",", '')
+            out = reset.split('>>')
+            out = out[1]
+            print(reset)
+            variable = allvarlist.append(out)
+            div = reset
+            if div[0] in allvarlist:
+                x = allvarlist.index(div[0])
+                x = x + 1
+                x = allvarlist[x]
+                if div[1] in allvarlist:
+                    y = allvarlist.index(div[1])
+                    y = y + 1
+                    y = allvarlist[y]
+                    x = int(x)
+                    y = int(y)
+                    result = eval('x / y')
+                    result = str(result)
+                    allvarlist[var] = result
+        if '^' in countprep:
+            pwr = countprep.replace(' ', '')
+            pwr = pwr.split('^')
+            reset = str(pwr)
+            reset = reset.replace('[', '')
+            reset = reset.replace(']', '')
+            reset = reset.replace("'", '')
+            reset = reset.replace(" ", '')
+            reset = reset.replace(",", '')
+            out = reset.split('>>')
+            out = out[1]
+            variable = allvarlist.append(out)
+            pwr = reset
+            if pwr[0] in allvarlist:
+                x = allvarlist.index(pwr[0])
+                x = x + 1
+                x = allvarlist[x]
+                if pwr[1] in allvarlist:
+                    y = allvarlist.index(pwr[1])
+                    y = y + 1
+                    y = allvarlist[y]
+                    x = int(x)
+                    y = int(y)
+                    result = eval('x ** y')
+                    result = str(result)
+                    allvarlist[var] = result
+
+    if readline[:5] == 'roast':
+        print('C is gay')
+        print('C++ too desnecessary')
+        print('Rust is too dificult')
+        print('Python is too mainstream')
+        print('Functional programming sucks')
+        print('OOP sucks dick')
+        print('MaltaLang is king')
+    if readline[:1] == '_':
+        print(readline)
+        
+    #print(readline[:2])
     if readline[:2] == 'if':
         readif = readline.replace('\n','')
         readif = readif.replace('if','')
-        readif = readif.replace('<','')
         readif = readif.replace(' ','')
         readif = readif.split(':')
         readvar = readif[0]
-        readvar = readvar.split('=')
-        readvarcheck = allvarlist.index(readvar[0])
-        if readvar[readvarcheck] == allvarlistf[readvarcheck]:
-            if readvar[readvarcheck + 1] == allvarlistf[readvarcheck + 1]:
-                fread_op += 1
-                readline = read[fread_op]
-                if 'op' in readif[1]:
-                    countprep = str(readif[1])
-                    countprep = countprep.replace('op', '')
-                    countprep = countprep.replace(' ', '')
-                    countprep = countprep.replace('\n', '')
-                    if '+' in countprep:
-                        add = countprep.replace(' ', '')
-                        add = add.split('+')
-                        add = map(int,add)
-                        add = list(add)
-                        x = add[0]
-                        y = add[1]
-                        print(eval('x + y'))
-                    if '-' in countprep:
-                        sub = countprep.replace(' ', '')
-                        sub = sub.split('-')
-                        sub = map(int,sub)
-                        sub = list(sub)
-                        x = sub[0]
-                        y = sub[1]
-                        print(eval('x - y'))
-                    if 'x' in countprep:
-                        mul = countprep.replace(' ', '')
-                        mul = mul.split('x')
-                        mul = map(int,mul)
-                        mul = list(mul)
-                        x = mul[0]
-                        y = mul[1]
-                        print(eval('x * y'))
-                    if '/' in countprep:
-                        div = countprep.replace(' ', '')
-                        div = div.split('/')
-                        div = map(int,div)
-                        div = list(div)
-                        x = div[0]
-                        y = div[1]
-                        print(eval('x / y'))
+        if '=' in readline:
+            readvar = readvar.split('=')
+        if '<' in readline:
+            readvar = readvar.split('<')
+        if '>' in readline:
+            readvar = readvar.split('>')
+        if readvar[0] not in allvarlist:
+            line += 1
+            continue
+        if '=' in readline:
+            readvarcheck = allvarlist.index(readvar[0])
+            readvarcheck1 = allvarlist.index(readvar[1])
+            if readvar[0] == allvarlist[readvarcheck]:
+                if readvar[1] == allvarlist[readvarcheck1]:
+                    fread_op += 1
+                    readline = read[fread_op]
+                    if 'op' in readif[1]:
+                        countprep = str(readif[1])
+                        countprep = countprep.replace('op', '')
+                        countprep = countprep.replace(' ', '')
+                        countprep = countprep.replace('\n', '')
+                        if 'v' in readif[1]:
+                            pass
+                        else:
+                            if '+' in countprep:
+                                add = countprep.replace(' ', '')
+                                add = add.split('+')
+                                add = map(int,add)
+                                add = list(add)
+                                x = add[0]
+                                y = add[1]
+                                print(eval('x + y'))
+                            if '-' in countprep:
+                                sub = countprep.replace(' ', '')
+                                sub = sub.split('-')
+                                sub = map(int,sub)
+                                sub = list(sub)
+                                x = sub[0]
+                                y = sub[1]
+                                print(eval('x - y'))
+                            if 'x' in countprep:
+                                mul = countprep.replace(' ', '')
+                                mul = mul.split('x')
+                                mul = map(int,mul)
+                                mul = list(mul)
+                                x = mul[0]
+                                y = mul[1]
+                                print(eval('x * y'))
+                            if '/' in countprep:
+                                div = countprep.replace(' ', '')
+                                div = div.split('/')
+                                div = map(int,div)
+                                div = list(div)
+                                x = div[0]
+                                y = div[1]
+                                print(eval('x / y'))
+                    else: pass
                     if '.' in readif[1]:
-                        print(readif[1])
-for end_checker in read:
-    read_end += 1
-    readline = read[read_end]
+                        replacepoint = readif[1]
+                        replacepoint = replacepoint.replace('.','')
+                        print(replacepoint)
+                    else: pass
+                    if 'ov' in readif[1]:
+                        countprep = str(readif[1])
+                        countprep = countprep.replace('ov', '')
+                        countprep = countprep.replace(' ', '')
+                        countprep = countprep.replace('\n', '')
+                        if '+' in countprep:
+                            add = countprep.replace(' ', '')
+                            add = add.split('+')
+                            if add[0] in allvarlist:
+                                x = allvarlist.index(add[0])
+                                x = x + 1
+                                x = allvarlist[x]
+                                if add[1] in allvarlist:
+                                    y = allvarlist.index(add[1])
+                                    y = y + 1
+                                    y = allvarlist[y]
+                                    x = int(x)
+                                    y = int(y)
+                                    print(eval('x + y'))
+                                
+                        if '-' in countprep:
+                            sub = countprep.replace(' ', '')
+                            sub = sub.split('-')
+                            if sub[0] in allvarlist:
+                                x = allvarlist.index(sub[0])
+                                x = x + 1
+                                x = allvarlist[x]
+                                if sub[1] in allvarlist:
+                                    y = allvarlist.index(sub[1])
+                                    y = y + 1
+                                    y = allvarlist[y]
+                                    x = int(x)
+                                    y = int(y)
+                                    print(eval('x - y'))
+                            
+                        if 'x' in countprep:
+                            mul = countprep.replace(' ', '')
+                            mul = mul.split('x')
+                            if mul[0] in allvarlist:
+                                x = allvarlist.index(mul[0])
+                                x = x + 1
+                                x = allvarlist[x]
+                                if mul[1] in allvarlist:
+                                    y = allvarlist.index(mul[1])
+                                    y = y + 1
+                                    y = allvarlist[y]
+                                    x = int(x)
+                                    y = int(y)
+                                    print(eval('x * y'))
+
+                        if '/' in countprep:
+                            div = countprep.replace(' ', '')
+                            div = div.split('/')
+                            if div[0] in allvarlist:
+                                x = allvarlist.index(div[0])
+                                x = x + 1
+                                x = allvarlist[x]
+                                if div[1] in allvarlist:
+                                    y = allvarlist.index(div[1])
+                                    y = y + 1
+                                    y = allvarlist[y]
+                                    x = int(x)
+                                    y = int(y)
+                                    print(eval('x / y'))
+                        if '>' in countprep:
+                            pwr = countprep.replace(' ', '')
+                            pwr = pwr.split('>')
+                            if pwr[0] in allvarlist:
+                                x = allvarlist.index(pwr[0])
+                                x = x + 1
+                                x = allvarlist[x]
+                                if pwr[1] in allvarlist:
+                                    y = allvarlist.index(pwr[1])
+                                    y = y + 1
+                                    y = allvarlist[y]
+                                    x = int(x)
+                                    y = int(y)
+                                    print(eval('x ** y'))
+                    if 'goto' in readif[1]:
+                        goto = readif[1].replace('goto','')
+                        goto = goto.replace('\n','')
+                        goto = goto.replace(' ','')
+                        goto = goto.replace(':','')
+
+                        number = goto.isdigit()
+                        if number == True:
+                            goto = int(goto)
+                            line = goto -2
+                            fread_op = goto -2 
+                            #print(line)
+                        else:
+                            goto2 = stamplist.index(goto)
+                            fread_op = stamplist.index(goto)
+                            line = goto2
+                        #print(line)
+            
+        else:
+            if '<' in readline:
+                readvarcheck = allvarlist.index(readvar[0])
+                readvarcheck1 = allvarlist.index(readvar[0])
+                readvarcheck1 = readvarcheck1 + 1
+                if readvar[0] == allvarlist[readvarcheck]:
+                    if readvar[1] > allvarlist[readvarcheck1]:
+                        fread_op += 1
+                        readline = read[fread_op]
+                        if 'op' in readif[1]:
+                            countprep = str(readif[1])
+                            countprep = countprep.replace('op', '')
+                            countprep = countprep.replace(' ', '')
+                            countprep = countprep.replace('\n', '')
+                            if 'v' in readif[1]:
+                                pass
+                            else:
+                                if '+' in countprep:
+                                    add = countprep.replace(' ', '')
+                                    add = add.split('+')
+                                    add = map(int,add)
+                                    add = list(add)
+                                    x = add[0]
+                                    y = add[1]
+                                    print(eval('x + y'))
+                                if '-' in countprep:
+                                    sub = countprep.replace(' ', '')
+                                    sub = sub.split('-')
+                                    sub = map(int,sub)
+                                    sub = list(sub)
+                                    x = sub[0]
+                                    y = sub[1]
+                                    print(eval('x - y'))
+                                if 'x' in countprep:
+                                    mul = countprep.replace(' ', '')
+                                    mul = mul.split('x')
+                                    mul = map(int,mul)
+                                    mul = list(mul)
+                                    x = mul[0]
+                                    y = mul[1]
+                                    print(eval('x * y'))
+                                if '/' in countprep:
+                                    div = countprep.replace(' ', '')
+                                    div = div.split('/')
+                                    div = map(int,div)
+                                    div = list(div)
+                                    x = div[0]
+                                    y = div[1]
+                                    print(eval('x / y'))
+                        else: pass
+                        if '.' in readif[1]:
+                            replacepoint = readif[1]
+                            replacepoint = replacepoint.replace('.','')
+                            print(replacepoint)
+                        else: pass
+                        if 'ov' in readif[1]:
+                            countprep = str(readif[1])
+                            countprep = countprep.replace('ov', '')
+                            countprep = countprep.replace(' ', '')
+                            countprep = countprep.replace('\n', '')
+                            if '+' in countprep:
+                                add = countprep.replace(' ', '')
+                                add = add.split('+')
+                                if add[0] in allvarlist:
+                                    x = allvarlist.index(add[0])
+                                    x = x + 1
+                                    x = allvarlist[x]
+                                    if add[1] in allvarlist:
+                                        y = allvarlist.index(add[1])
+                                        y = y + 1
+                                        y = allvarlist[y]
+                                        x = int(x)
+                                        y = int(y)
+                                        print(eval('x + y'))
+                                    
+                            if '-' in countprep:
+                                sub = countprep.replace(' ', '')
+                                sub = sub.split('-')
+                                if sub[0] in allvarlist:
+                                    x = allvarlist.index(sub[0])
+                                    x = x + 1
+                                    x = allvarlist[x]
+                                    if sub[1] in allvarlist:
+                                        y = allvarlist.index(sub[1])
+                                        y = y + 1
+                                        y = allvarlist[y]
+                                        x = int(x)
+                                        y = int(y)
+                                        print(eval('x - y'))
+                                
+                            if 'x' in countprep:
+                                mul = countprep.replace(' ', '')
+                                mul = mul.split('x')
+                                if mul[0] in allvarlist:
+                                    x = allvarlist.index(mul[0])
+                                    x = x + 1
+                                    x = allvarlist[x]
+                                    if mul[1] in allvarlist:
+                                        y = allvarlist.index(mul[1])
+                                        y = y + 1
+                                        y = allvarlist[y]
+                                        x = int(x)
+                                        y = int(y)
+                                        print(eval('x * y'))
+
+                            if '/' in countprep:
+                                div = countprep.replace(' ', '')
+                                div = div.split('/')
+                                if div[0] in allvarlist:
+                                    x = allvarlist.index(div[0])
+                                    x = x + 1
+                                    x = allvarlist[x]
+                                    if div[1] in allvarlist:
+                                        y = allvarlist.index(div[1])
+                                        y = y + 1
+                                        y = allvarlist[y]
+                                        x = int(x)
+                                        y = int(y)
+                                        print(eval('x / y'))
+                            if '>' in countprep:
+                                pwr = countprep.replace(' ', '')
+                                pwr = pwr.split('>')
+                                if pwr[0] in allvarlist:
+                                    x = allvarlist.index(pwr[0])
+                                    x = x + 1
+                                    x = allvarlist[x]
+                                    if pwr[1] in allvarlist:
+                                        y = allvarlist.index(pwr[1])
+                                        y = y + 1
+                                        y = allvarlist[y]
+                                        x = int(x)
+                                        y = int(y)
+                                        print(eval('x ** y'))
+                        if 'goto' in readif[1]:
+                            goto = readif[1].replace('goto','')
+                            goto = goto.replace('\n','')
+                            goto = goto.replace(' ','')
+                            goto = goto.replace(':','')
+
+                            number = goto.isdigit()
+                            if number == True:
+                                goto = int(goto)
+                                line = goto -2
+                                fread_op = goto -2 
+                                #print(line)
+                            else:
+                                goto2 = stamplist.index(goto)
+                                fread_op = stamplist.index(goto)
+                                line = goto2
+            else:
+                if '>' in readline:
+                    #print('yes')
+                    #print(readline)
+                    readvarcheck = allvarlist.index(readvar[0])
+                    readvarcheck1 = allvarlist.index(readvar[0])
+                    readvarcheck1 = readvarcheck1 + 1
+                    #print(readvar[1])
+                    #print(readvarcheck1,'effef')
+                    #print('yes')
+                    #print(readvar[1])
+                    #print(allvarlist[readvarcheck1])
+                    if readvar[0] == allvarlist[readvarcheck]:
+                        if readvar[1] < allvarlist[readvarcheck1]:
+                            fread_op += 1
+                            readline = read[fread_op]
+                            if 'op' in readif[1]:
+                                countprep = str(readif[1])
+                                countprep = countprep.replace('op', '')
+                                countprep = countprep.replace(' ', '')
+                                countprep = countprep.replace('\n', '')
+                                if 'v' in readif[1]:
+                                    pass
+                                else:
+                                    if '+' in countprep:
+                                        add = countprep.replace(' ', '')
+                                        add = add.split('+')
+                                        add = map(int,add)
+                                        add = list(add)
+                                        x = add[0]
+                                        y = add[1]
+                                        print(eval('x + y'))
+                                    if '-' in countprep:
+                                        sub = countprep.replace(' ', '')
+                                        sub = sub.split('-')
+                                        sub = map(int,sub)
+                                        sub = list(sub)
+                                        x = sub[0]
+                                        y = sub[1]
+                                        print(eval('x - y'))
+                                    if 'x' in countprep:
+                                        mul = countprep.replace(' ', '')
+                                        mul = mul.split('x')
+                                        mul = map(int,mul)
+                                        mul = list(mul)
+                                        x = mul[0]
+                                        y = mul[1]
+                                        print(eval('x * y'))
+                                    if '/' in countprep:
+                                        div = countprep.replace(' ', '')
+                                        div = div.split('/')
+                                        div = map(int,div)
+                                        div = list(div)
+                                        x = div[0]
+                                        y = div[1]
+                                        print(eval('x / y'))
+                            else: pass
+                            if '.' in readif[1]:
+                                replacepoint = readif[1]
+                                replacepoint = replacepoint.replace('.','')
+                                print(replacepoint)
+                            else: pass
+                            if 'ov' in readif[1]:
+                                countprep = str(readif[1])
+                                countprep = countprep.replace('ov', '')
+                                countprep = countprep.replace(' ', '')
+                                countprep = countprep.replace('\n', '')
+                                if '+' in countprep:
+                                    add = countprep.replace(' ', '')
+                                    add = add.split('+')
+                                    if add[0] in allvarlist:
+                                        x = allvarlist.index(add[0])
+                                        x = x + 1
+                                        x = allvarlist[x]
+                                        if add[1] in allvarlist:
+                                            y = allvarlist.index(add[1])
+                                            y = y + 1
+                                            y = allvarlist[y]
+                                            x = int(x)
+                                            y = int(y)
+                                            print(eval('x + y'))
+                                        
+                                if '-' in countprep:
+                                    sub = countprep.replace(' ', '')
+                                    sub = sub.split('-')
+                                    if sub[0] in allvarlist:
+                                        x = allvarlist.index(sub[0])
+                                        x = x + 1
+                                        x = allvarlist[x]
+                                        if sub[1] in allvarlist:
+                                            y = allvarlist.index(sub[1])
+                                            y = y + 1
+                                            y = allvarlist[y]
+                                            x = int(x)
+                                            y = int(y)
+                                            print(eval('x - y'))
+                                    
+                                if 'x' in countprep:
+                                    mul = countprep.replace(' ', '')
+                                    mul = mul.split('x')
+                                    if mul[0] in allvarlist:
+                                        x = allvarlist.index(mul[0])
+                                        x = x + 1
+                                        x = allvarlist[x]
+                                        if mul[1] in allvarlist:
+                                            y = allvarlist.index(mul[1])
+                                            y = y + 1
+                                            y = allvarlist[y]
+                                            x = int(x)
+                                            y = int(y)
+                                            print(eval('x * y'))
+
+                                if '/' in countprep:
+                                    div = countprep.replace(' ', '')
+                                    div = div.split('/')
+                                    if div[0] in allvarlist:
+                                        x = allvarlist.index(div[0])
+                                        x = x + 1
+                                        x = allvarlist[x]
+                                        if div[1] in allvarlist:
+                                            y = allvarlist.index(div[1])
+                                            y = y + 1
+                                            y = allvarlist[y]
+                                            x = int(x)
+                                            y = int(y)
+                                            print(eval('x / y'))
+                                if '>' in countprep:
+                                    pwr = countprep.replace(' ', '')
+                                    pwr = pwr.split('>')
+                                    if pwr[0] in allvarlist:
+                                        x = allvarlist.index(pwr[0])
+                                        x = x + 1
+                                        x = allvarlist[x]
+                                        if pwr[1] in allvarlist:
+                                            y = allvarlist.index(pwr[1])
+                                            y = y + 1
+                                            y = allvarlist[y]
+                                            x = int(x)
+                                            y = int(y)
+                                            print(eval('x ** y'))
+                        
+                            if 'goto' in readif[1]:
+                                #print('yes')
+                                goto = readif[1].replace('goto','')
+                                goto = goto.replace('\n','')
+                                goto = goto.replace(' ','')
+                                goto = goto.replace(':','')
+                                #print(readif[1])
+
+                                number = goto.isdigit()
+                                if number == True:
+                                    goto = int(goto)
+                                    line = goto -2
+                                    fread_op = goto -2 
+                                        #print(line)
+                                else:
+                                    goto2 = stamplist.index(goto)
+                                    fread_op = stamplist.index(goto)
+                                    line = goto2
+                            #print('yes')
+
     if readline[:3] == 'END':
+        break
         f.close()
 
-for loop_checker in read:
-    read_loop += 1
-    readline = read[read_loop]
     if readline[:2] == 'lp':
         readlp = readline.replace('lp','')
         readlp = readlp.replace('\n','')
@@ -195,11 +807,12 @@ for loop_checker in read:
             readline = readline.replace('>','')
             readline = readline.replace(' ','')
             readline = readline.split('/')
+            #print(allvarlist)
             while loopnumber > 0:
                 loopnumber -= 1
-                varprint = allvarlistf.index(readline[0])
+                varprint = allvarlist.index(readline[0])
                 varprint = varprint + 1
-                print(allvarlistf[varprint])
+                print(allvarlist[varprint])
 
     if readline[:3] == 'lpo':
         readlp = readline.replace('lpo','')
@@ -247,3 +860,8 @@ for loop_checker in read:
                 x = add[0]
                 y = add[1]
                 print(eval('x / y'))
+    line += 1
+#end_time = datetime.now()
+#print(end_time - start_time)
+
+    
