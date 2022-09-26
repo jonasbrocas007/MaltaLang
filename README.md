@@ -29,7 +29,7 @@ END
 make user input  
 <x = 0  
 $x  
->x  
+>>x  
 
 goto  
 :programm  
