@@ -36,6 +36,6 @@ Programs are very basic, the only thing is that you need to use the END command 
 to print you should use the **.** command.  
 >.Hello World  
 to print variables use the **>** command.  
-> >var
+> '>'var
 
 
