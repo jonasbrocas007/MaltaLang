@@ -39,4 +39,42 @@ to print you should use the **.** command.
 to print variables use the '>' command.  
 > '>'var
 
+### variables:  
+to create a variable use the '<' command:  
+> <var = 0  
+
+to input into a variable use the '$' command:  
+> $var  
+
+you can also increment into the variable with '++'  
+>var++  
+
+and pipe a result into a variable with '>>'  
+>ov a + b >> var  
+
+### loops:  
+In MaltaLang v1 you can use the loop command:  
+>lp .Hello 10  
+this command loops Hello 10 times.  
+
+But in MaltaLang the loop command was discontinued, now you are force to used the holy grail of commands, **goto**  
+with goto you can go to backwards stamps:  
+> :start  
+> goto start  
+
+and go to backwards and forwards lines:
+>goto 50  
+
+**Note:** i'm talking about backwards and forwards lines because with stamps you cannot go forwards as they are not declared yet.  
+
+### conditions (if):  
+with if you only can program one line, for example you cannot condition multiple commands, only one.  
+the if has multiple parts: if, the condition and the command to do after.  
+>if a = 1: >a  
+
+**WARNING:** as of 6/10/2022 you can't condition a condition.
+
+
+
+
 
