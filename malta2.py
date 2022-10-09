@@ -15,20 +15,30 @@ rows = []
 read = f.readlines()
 stamplist = []
 number = 0
+stampline = 0
+
+#print(len(read))
+while stampline <= len(read):
+    while line < len(read):
+        readline = read[line]
+        if readline[0] == ':':
+            #print('yes')
+            readstamp = readline.replace('\n', '')
+            readstamp = readstamp.replace(',', '')
+            readstamp = readstamp.replace('[', '')
+            readstamp = readstamp.replace(']', '')
+            readstamp = readstamp.replace("'", '')
+            readstamp = readstamp.replace(":", '')
+            readstamp = readstamp.split(' ')
+            stamplist.append(readstamp[0])
+            stamplist.append(line)
+        line += 1
+    stampline += 1 
+line = 0
 while True:
     readline = read[line]
     if readline[:4] == 'pass':
         line += 1
-
-    if readline[0] == ':':
-        readstamp = readline.replace('\n', '')
-        readstamp = readstamp.replace(',', '')
-        readstamp = readstamp.replace('[', '')
-        readstamp = readstamp.replace(']', '')
-        readstamp = readstamp.replace("'", '')
-        readstamp = readstamp.replace(":", '')
-        readstamp = readstamp.split(' ')
-        stamplist.append(readstamp[0])
 
     if readline[:4] == 'goto':
         goto = readline.replace('goto','')
@@ -40,7 +50,8 @@ while True:
             line = goto -2
         else:
             goto2 = stamplist.index(goto)
-            line = goto2
+            stampgoto = stamplist[goto2 + 1]
+            line = stampgoto
 
     if readline[0] == ".":
         readpoint = readline.replace('.', '')
@@ -85,7 +96,12 @@ while True:
             div = list(div)
             x = div[0]
             y = div[1]
+            #print(x)
+            if y == 0 or x == 0:
+                print('you cannot divide by 0','line:',line)
+                break
             print(eval('x / y'))
+           
         if '^' in countprep:
             div = countprep.replace(' ', '')
             div = div.split('^')
@@ -141,7 +157,25 @@ while True:
                 digitvar = memlist[var2].isdigit()
                 if digitvar == True:
                     memlist.pop(var)
+                #if digitvar == False:
+                    #memlist.pop(var)
+        for number2 in memlist:
+            if number2 in "0123456789":
+                var = memlist.index(number2)
+                var2 = var - 1
+                digitvar = memlist[var2].isdigit()
+                if digitvar == True:
+                    print('memory error program panic','line:',line)
         allvarlist = memlist
+
+    if readline[:3] == 'del':
+        readdel = readline.replace('del', '')
+        readdel = readdel.replace(' ', '')
+        readdel = readdel.replace('\n', '')
+        place = allvarlist.index(readdel)
+        del allvarlist[place]
+        del allvarlist[place]
+
 
 
     if readline[:1] == '$':
@@ -271,6 +305,9 @@ while True:
                     y = allvarlist[y]
                     x = int(x)
                     y = int(y)
+                    if y == 0 or x == 0:
+                        print('you cannot divide by 0','line:',line)
+                        break
                     result = eval('x / y')
                     result = str(result)
                     allvarlist[var] = result
@@ -374,7 +411,18 @@ while True:
                                     div = list(div)
                                     x = div[0]
                                     y = div[1]
+                                    if y == 0 or x == 0:
+                                        print('you cannot divide by 0','line:',line)
+                                        break
                                     print(eval('x / y'))
+                                if '^' in countprep:
+                                    pwr = countprep.replace(' ', '')
+                                    pwr = pwr.split('/')
+                                    pwr = map(int,pwr)
+                                    pwr = list(pwr)
+                                    x = pwr[0]
+                                    y = pwr[1]
+                                    print(eval('x ** y'))
                         else: pass
                         if '.' in readif[1]:
                             replacepoint = readif[1]
@@ -444,10 +492,13 @@ while True:
                                         y = allvarlist[y]
                                         x = int(x)
                                         y = int(y)
+                                        if y == 0 or x == 0:
+                                            print('you cannot divide by 0','line:',line)
+                                            break
                                         print(eval('x / y'))
-                            if '>' in countprep:
+                            if '^' in countprep:
                                 pwr = countprep.replace(' ', '')
-                                pwr = pwr.split('>')
+                                pwr = pwr.split('^')
                                 if pwr[0] in allvarlist:
                                     x = allvarlist.index(pwr[0])
                                     x = x + 1
@@ -550,6 +601,9 @@ while True:
                                             div = list(div)
                                             x = div[0]
                                             y = div[1]
+                                            if y == 0 or x == 0:
+                                                print('you cannot divide by 0','line:',line)
+                                                break
                                             print(eval('x / y'))
                                         if '^' in countprep:
                                             div = countprep.replace(' ', '')
@@ -703,6 +757,9 @@ while True:
                                                     y = allvarlist[y]
                                                     x = int(x)
                                                     y = int(y)
+                                                    if y == 0 or x == 0:
+                                                        print('you cannot divide by 0','line:',line)
+                                                        break
                                                     result = eval('x / y')
                                                     result = str(result)
                                                     allvarlist[var] = result
@@ -796,7 +853,18 @@ while True:
                                     div = list(div)
                                     x = div[0]
                                     y = div[1]
+                                    if y == 0 or x == 0:
+                                        print('you cannot divide by 0','line:',line)
+                                        break
                                     print(eval('x / y'))
+                                if '^' in countprep:
+                                    pwr = countprep.replace(' ', '')
+                                    pwr = pwr.split('^')
+                                    pwr = map(int,pwr)
+                                    pwr = list(pwr)
+                                    x = pwr[0]
+                                    y = pwr[1]
+                                    print(eval('x ** y'))
                         else: pass
                         if '.' in readif[1]:
                             replacepoint = readif[1]
@@ -866,10 +934,13 @@ while True:
                                         y = allvarlist[y]
                                         x = int(x)
                                         y = int(y)
+                                        if y == 0 or x == 0:
+                                            print('you cannot divide by 0','line:',line)
+                                            break
                                         print(eval('x / y'))
-                            if '>' in countprep:
+                            if '^' in countprep:
                                 pwr = countprep.replace(' ', '')
-                                pwr = pwr.split('>')
+                                pwr = pwr.split('^')
                                 if pwr[0] in allvarlist:
                                     x = allvarlist.index(pwr[0])
                                     x = x + 1
@@ -974,6 +1045,9 @@ while True:
                                             div = list(div)
                                             x = div[0]
                                             y = div[1]
+                                            if y == 0 or x == 0:
+                                                print('you cannot divide by 0','line:',line)
+                                                break
                                             print(eval('x / y'))
                                         if '^' in countprep:
                                             div = countprep.replace(' ', '')
@@ -1127,6 +1201,9 @@ while True:
                                                     y = allvarlist[y]
                                                     x = int(x)
                                                     y = int(y)
+                                                    if y == 0 or x == 0:
+                                                        print('you cannot divide by 0','line:',line)
+                                                        break
                                                     result = eval('x / y')
                                                     result = str(result)
                                                     allvarlist[var] = result
@@ -1218,7 +1295,19 @@ while True:
                                         div = list(div)
                                         x = div[0]
                                         y = div[1]
+                                        if y == 0 or x == 0:
+                                            print('you cannot divide by 0','line:',line)
+                                            break
                                         print(eval('x / y'))
+                                    if '^' in countprep:
+                                        pwr = countprep.replace(' ', '')
+                                        pwr = pwr.split('/')
+                                        pwr = map(int,pwr)
+                                        pwr = list(pwr)
+                                        x = pwr[0]
+                                        y = pwr[1]
+                                        print(eval('x ** y'))
+
                             else: pass
                             if '.' in readif[1]:
                                 replacepoint = readif[1]
@@ -1288,6 +1377,9 @@ while True:
                                             y = allvarlist[y]
                                             x = int(x)
                                             y = int(y)
+                                            if y == 0 or x == 0:
+                                                print('you cannot divide by 0','line:',line)
+                                                break
                                             print(eval('x / y'))
                                 if '>' in countprep:
                                     pwr = countprep.replace(' ', '')
@@ -1397,6 +1489,9 @@ while True:
                                                 div = list(div)
                                                 x = div[0]
                                                 y = div[1]
+                                                if y == 0 or x == 0:
+                                                    print('you cannot divide by 0','line:',line)
+                                                    break
                                                 print(eval('x / y'))
                                             if '^' in countprep:
                                                 div = countprep.replace(' ', '')
@@ -1550,6 +1645,9 @@ while True:
                                                         y = allvarlist[y]
                                                         x = int(x)
                                                         y = int(y)
+                                                        if y == 0 or x == 0:
+                                                            print('you cannot divide by 0','line:',line)
+                                                            break
                                                         result = eval('x / y')
                                                         result = str(result)
                                                         allvarlist[var] = result
