@@ -58,21 +58,26 @@ In MaltaLang v1 you can use the loop command:
 this command loops Hello 10 times.  
 
 But in MaltaLang the loop command was discontinued, now you are force to used the holy grail of commands, **goto**  
-with goto you can go to backwards stamps:  
+with goto you can go to  stamps:  
 > :start  
 > goto start  
 
-and go to backwards and forwards lines:
+and go to lines:
 >goto 50  
 
-**Note:** i'm talking about backwards and forwards lines because with stamps you cannot go forwards as they are not declared yet.  
+ 
 
 ### conditions (if):  
 with if you only can program one line, for example you cannot condition multiple commands, only one.  
 the if has multiple parts: if, the condition and the command to do after.  
 >if a = 1: >a  
 
-**WARNING:** as of 6/10/2022 you can't condition a condition.
+### Memory  
+MaltaLang has a garbage collector but you need to call it with c   
+>c  
+if you want a variable to get deleted but it is not elegible for the garbage collector you can use the del  
+ keyword  
+>del var
 
 
 
