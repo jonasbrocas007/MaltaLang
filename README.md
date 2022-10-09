@@ -75,6 +75,7 @@ the if has multiple parts: if, the condition and the command to do after.
 ### Memory  
 MaltaLang has a garbage collector but you need to call it with c   
 >c  
+
 if you want a variable to get deleted but it is not elegible for the garbage collector you can use the del  
  keyword  
 >del var
