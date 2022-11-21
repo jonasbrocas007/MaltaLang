@@ -70,7 +70,9 @@ and go to lines:
 ### conditions (if):  
 with if you only can program one line, for example you cannot condition multiple commands, only one.  
 the if has multiple parts: if, the condition and the command to do after.  
->if a = 1: >a  
+>if a = b:goto {, else }
+:{
+:}
 
 ### Memory  
 MaltaLang has a garbage collector but you need to call it with c   
