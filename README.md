@@ -47,7 +47,7 @@ to input into a variable use the '$' command:
 > $var  
 
 you can also increment into the variable with '++'  
->var++  
+>++var 
 
 and pipe a result into a variable with '>>'  
 >ov a + b >> var  
