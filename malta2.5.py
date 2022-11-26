@@ -20,6 +20,11 @@ empty = []
 stampline = 0
 whilelist = []
 number = 0
+allfilelist = []
+var = 0
+len_read_list = []
+read_list = []
+
 
 while stampline <= len(read):
     while line < len(read):
@@ -94,6 +99,8 @@ while True:
         if readline[:2] == "++":
             readline_inc = readline.replace('++','')
             readline_inc = readline_inc.replace('\n','')
+            readline_inc = readline_inc.replace(' ','')
+            #print(readline_inc)
             pp = allvarlist.index(readline_inc)
             pp = pp + 1
             number = int(allvarlist[pp])
@@ -110,7 +117,7 @@ while True:
     printf_no_newline()
 
     def operation():
-        if readline[:2] == 'op':
+        if readline[:2] == 'op' and readline[2] == ' ':
             countprep = str(readline)
             countprep = countprep.replace('op', '')
             countprep = countprep.replace(' ', '')
@@ -699,6 +706,7 @@ while True:
                                 goto_def()
                                 passing()
                                 while_loop()
+                                read_file_line()
                                 end_statement = stamplist.index(str(while_readline[2]))
                                 end_statement = stamplist[end_statement + 1] 
                                 if line == end_statement - 1:
@@ -745,6 +753,7 @@ while True:
                                 goto_def()
                                 passing()
                                 while_loop()
+                                read_file_line()
                                 end_statement = stamplist.index(str(while_readline[2]))
                                 end_statement = stamplist[end_statement + 1] 
                                 if line == end_statement - 1:
@@ -784,7 +793,9 @@ while True:
                                 goto2 = stamplist.index(goto)
                                 stampgoto = stamplist[goto2 + 1]
 
+                                
                                 readline = read[line]
+                                
 
                                 sleep_s()
                                 printf()
@@ -804,6 +815,7 @@ while True:
                                 conditions()
                                 goto_def()
                                 passing()
+                                read_file_line()
                                 
                                 #while_loop()
                                 end_statement = stamplist.index(str(while_readline[2]))
@@ -851,6 +863,7 @@ while True:
                                 conditions()
                                 goto_def()
                                 passing()
+                                read_file_line()
                                 #while_loop()
                                 end_statement = stamplist.index(str(while_readline[2]))
                                 end_statement = stamplist[end_statement + 1] 
@@ -911,6 +924,7 @@ while True:
                                 conditions()
                                 goto_def()
                                 passing()
+                                read_file_line()
                                 #while_loop()
                                 end_statement = stamplist.index(str(while_readline[2]))
                                 end_statement = stamplist[end_statement + 1] 
@@ -957,6 +971,7 @@ while True:
                                 goto_def()
                                 passing()
                                 while_loop()
+                                read_file_line()
                                 end_statement = stamplist.index(str(while_readline[2]))
                                 end_statement = stamplist[end_statement + 1] 
                                 if line == end_statement - 1:
@@ -971,6 +986,84 @@ while True:
 
                     number += 1
     while_loop()
+
+    def open_file():
+        global allfilelist
+        global var
+        #[file = open teste.txt, r
+        if readline[:1] == '[':
+            open_readline = readline.replace('\n','')
+            open_readline = open_readline.replace('open','')
+            open_readline = open_readline.replace('[','')
+            open_readline = open_readline.replace(' ','')
+            open_readline = open_readline.split(',')
+            open_readline_partone = open_readline[0].split('=')
+            open_readline_parttwo = open_readline[1]
+            
+            allfilelist.append(open_readline_partone[0])
+            file_argv = open_readline_partone[1]
+            var = allfilelist.index(open_readline_partone[0])
+            var = allfilelist[var]
+
+            var = open(file_argv,open_readline_parttwo)
+
+    open_file()
+
+    def read_file_line(): #readline, a
+        global var
+        global allvarlist
+
+        if readline[:8] == 'readline':
+            read_file_line = readline.replace('readline','')
+            read_file_line = read_file_line.replace('\n','')
+            read_file_line = read_file_line.replace(' ','')
+            read_file_line = read_file_line.replace(',','')
+            line_var = allvarlist.index(read_file_line) + 1
+            line_var = allvarlist[line_var]
+            read_list.append(var.readlines())
+            read = read_list[0]
+
+            len_read_list.append(len(read))
+            len_read = len_read_list[0]
+            line_var = int(line_var)
+            
+            if line_var <= int(len_read):
+                read_specific_line = read[line_var]
+                read_specific_line = read_specific_line.replace('\n','')
+                print(read_specific_line)
+    read_file_line()
+
+
+    def close_file(): #]file.close
+        global var
+        if readline[:1] == ']':
+            var.close()
+    close_file()
+
+    def read_file():
+        global var
+        if readline[:8] == 'readfile':
+            print(var.read())
+    read_file()
+
+    def write_file():
+        global allvarlist
+        global var
+        if readline[:5] == 'write':
+            write_file_read = readline.replace('\n','')
+            write_file_read = write_file_read.replace(' ','')
+            write_file_read = write_file_read.replace('write','')
+            write_file_read = write_file_read.replace(',','')
+
+            what_write = allvarlist.index(write_file_read) + 1
+            what_write = allvarlist[what_write]
+            print(what_write)
+            if what_write == '*nl':
+                var.write('\n')
+            else:
+                var.write(what_write)
+            #print(what_write)
+    write_file()
 
     line += 1    
 #end_time = datetime.now()
