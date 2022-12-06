@@ -32,6 +32,6 @@ the type of the output (integer (i) or float (f)).
 The output will not be shown but you can print it with >> or >.  
 An example of that would be:  
 ov x + y >> result i  
->result  
+ >result  
 
 Note: The type should be the final character of the line!  
