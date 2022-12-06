@@ -60,6 +60,7 @@ This is an example of coding in MaltaLang.
 This example prints part of the fibonacci series.  
 
 #### The print keyword  
+
 In MaltaLang there are various ways of printing something, unlike a language like python or C++, in MaltaLang the ways to print
 a string, a string without newline, a variable and variable without newline differ.  
 ---
