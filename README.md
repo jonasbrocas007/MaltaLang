@@ -89,12 +89,12 @@ You can use goto to jump to that stamp, goto stampname.
     goto stamp
 With stamps you can make a while loop but there is a while loop statement in MaltaLang.  
 It starts with the while itself, while. Then you need to assert the first variable, then a comparation operator, =, < or > and
-a second variable, then you need to specify where to goto if true (goto start) and if false (else end).  
+a second variable, then in the second part you need to specify where to goto if true (goto start) and if false (else end), don't
+forget to divide the first and second part with :.  
 
 It uses this structure:
 
       while x < y: goto start, else end
       :start
       :end
-
 
