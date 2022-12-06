@@ -47,10 +47,10 @@ START
 while a < check: goto start, else end  
 :start  
 
-    >>a  
-    ov a + b >> result i  
-    @b,a  
-    @result, b  
+>>a  
+ov a + b >> result i  
+@b,a  
+@result, b  
 
 :end  
 
