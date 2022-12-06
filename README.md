@@ -70,14 +70,13 @@ To print a variable you use '>>' example: >>result
 And, to print a variable without newline you use '>' example: >result  
 
 #### Stamps:  
-Stamps are really important for the language because unlike other languages like C or any C like language to make a loop or a if
-you don't use curly brases, you goto stamps, in a loop you go to the start stamp if you hit the condition, else its goes to 
-the end stamp  
----
+
     if a = b: goto start, else end
     :start
       (insert code here)
     :end
----
 
+Stamps are really important for the language because unlike other languages like C or any C like language to make a loop or a if
+you don't use curly brases, you goto stamps, in a loop you go to the start stamp if you hit the condition, else its goes to 
+the end stamp 
 
