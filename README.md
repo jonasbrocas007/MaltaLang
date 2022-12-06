@@ -79,5 +79,11 @@ Look at this code:
 
 Stamps are really important for the language because unlike other languages like C or any C like language to make a loop or a if
 you don't use curly brases, you goto stamps, in a loop you go to the start stamp if you hit the condition, else its goes to 
-the end stamp 
+the end stamp.  
+To create a stamp you use the : keyword followed by the name of the stamp, :stampname.
+You can use goto to jump to that stamp, goto stampname.
+
+    :stampname  
+      (code here)  
+    goto stamp
 
