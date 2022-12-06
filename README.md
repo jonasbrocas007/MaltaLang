@@ -63,10 +63,10 @@ This example prints part of the fibonacci series.
 
 In MaltaLang there are various ways of printing something, unlike a language like python or C++, in MaltaLang the ways to print
 a string, a string without newline, a variable and variable without newline differ.  
-
-To print a string you use '.' example: .Hello World!
-To print a string without newline you use ',' example: ,Hello World!
-To print a variable you use '>>' example: >>result
-And, to print a variable without newline you use '>' example: >result
+  
+To print a string you use '.' example: .Hello World!  
+To print a string without newline you use ',' example: ,Hello World!  
+To print a variable you use '>>' example: >>result  
+And, to print a variable without newline you use '>' example: >result  
 
 
