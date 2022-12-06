@@ -36,7 +36,8 @@ ov x + y >> result i
 
 Note: The type should be the final character of the line!  
 
-#### An example of basic MaltaLang:  
+### First steps in MaltaLang:  
+This is an example of coding in MaltaLang.  
 ---  
   START  
   <a = 0 i  
@@ -56,3 +57,15 @@ Note: The type should be the final character of the line!
 
   END  
 ---
+This example prints part of the fibonacci series.  
+
+#### The print keyword  
+In MaltaLang there are various ways of printing something, unlike a language like python or C++, in MaltaLang the ways to print
+a string, a string without newline, a variable and variable without newline differ.  
+---
+To print a string you use '.' example: .Hello World!
+To print a string without newline you use ',' example: ,Hello World!
+To print a variable you use '>>' example: >>result
+And, to print a variable without newline you use '>' example: >result
+---
+
