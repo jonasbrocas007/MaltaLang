@@ -91,8 +91,10 @@ With stamps you can make a while loop but there is a while loop statement in Mal
 It starts with the while itself, while. Then you need to assert the first variable, then a comparation operator, =, < or > and
 a second variable, then you need to specify where to goto if true (goto start) and if false (else end).  
 
-It uses this structure:  
+It uses this structure:
+
       while x < y: goto start, else end
       :start
       :end
+
 
