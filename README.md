@@ -92,8 +92,7 @@ It starts with the while itself, while. Then you need to assert the first variab
 a second variable, then you need to specify where to goto if true (goto start) and if false (else end).  
 
 It uses this structure:  
-'''
-while x < y: goto start, else end
-:start
-:end
-'''
+      while x < y: goto start, else end
+      :start
+      :end
+
