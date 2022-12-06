@@ -100,4 +100,6 @@ It uses this structure:
 #### Variables:  
   
 Variables in MaltaLang aren't hard, you can create variables with int, string or float type, use user input to
-pipe into variables, move, copy and delete variables.  
+pipe into variables, move, copy and delete variables. 
+
+
