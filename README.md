@@ -97,4 +97,7 @@ It uses this structure:
       while x < y: goto start, else end
       :start
       :end
-
+#### Variables:  
+  
+Variables in MaltaLang aren't hard, you can create variables with int, string or float type, use user input to
+pipe into variables, move, copy and delete variables.  
