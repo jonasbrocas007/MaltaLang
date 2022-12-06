@@ -39,23 +39,23 @@ Note: The type should be the final character of the line!
 ### First steps in MaltaLang:  
 This is an example of coding in MaltaLang.  
 ---  
-  START  
-  <a = 0 i  
-  <b = 1 i  
-  <result = 0 i  
-  <check = 1000 i  
+     START  
+      <a = 0 i  
+      <b = 1 i  
+      <result = 0 i  
+      <check = 1000 i  
 
-  while a < check: goto start, else end  
-  :start  
+      while a < check: goto start, else end  
+      :start  
 
-    >>a  
-    ov a + b >> result i  
-    @b,a  
-    @result, b  
+        >>a  
+        ov a + b >> result i  
+        @b,a  
+        @result, b  
 
-  :end  
+      :end  
 
-  END  
+    END  
 ---
 This example prints part of the fibonacci series.  
 
