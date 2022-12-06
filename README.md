@@ -21,6 +21,17 @@ operation are one of the first things i did in MaltaLang.
 
 #### Calculating two numbers:  
 In MaltaLang to calculate two numbers that are not stored in variables you need to use the op keyword 
-it's sintax is op (the operator), the first number, the signal (+ - / *), the second number and finnaly 
+it's syntax is op (the operator), the first number, the signal (+ - / *), the second number and finnaly 
 the type of output (integer (i) or float (f))  
 An example of that would be: op 1 + 1 i, calculates 1 + 1 and shows the final output as a integer.  
+
+#### Calculating two numbers from two variables:
+To calculate numbers from variables you need to use a different keyword, (ov) which means (operation with variables).  
+it's syntax is ov (the operator), the first variable, the signal (+ - / *), the second number, the output separeted with >> and finnaly
+the type of the output (integer (i) or float (f)).
+The output will not be shown but you can print it with >> or >.  
+An example of that would be:  
+ov x + y >> result i  
+>>result  
+
+Note: The type should be the final character of the line!  
