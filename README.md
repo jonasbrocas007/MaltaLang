@@ -114,6 +114,16 @@ You can also copy and delete variable you coppied from with '@d x,y' d stands fo
 To delete a variable you use the del keyword followed by the variable name.  
 It looks like this 'del x'.  
 
+#### Memory:  
+All variables in MaltaLang are stored in a mystical big list, it is called **ALLVARLIST**, the variables names
+are stored in the even indexes and the values are stored in the uneven indexes, being the value of the value
+immediatly after the variable name.  
+  
+You can do a few things to manage this memory, there is a garbage collector but it needs to be called with the 'c' keyword
+it's like that because of two reasons, having a garbage collector running all the time is slower and you cannot manage memory
+mannualy if you want, so in MaltaLang it needs to be called so **you** can manage the memory yourself deleting and copying the variables
+when they are not needed anymore, because the memory is stored in a list that is the only thing you need to do to manage your memory.  
+
 
 
 
