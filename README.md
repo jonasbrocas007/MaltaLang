@@ -15,6 +15,9 @@ don't work.
 MaltaLang is a interpreted Language so, to program in maltalang you need to download the interpreter from 
 this page, this document focus on MaltaLang 2.5  
 
+To create a MaltaLang program you need to create a file with the .mlt extension and put **START** where you want to
+start the code and **END** where you want your program to run.
+
 ### Numbers in Maltalang:  
 We are going to start the documentation with numbers, numbers are the basics of computing, and number 
 operation are one of the first things i did in MaltaLang.  
