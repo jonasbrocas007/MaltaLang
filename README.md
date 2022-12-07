@@ -101,5 +101,21 @@ It uses this structure:
   
 Variables in MaltaLang aren't hard, you can create variables with int, string or float type, use user input to
 pipe into variables, move, copy and delete variables. 
+To create a variable you need to specify the name, value and type of the variable.  
+It looks like this <variable = 1 i or <string = Hello s  
+  
+To input into a variable you just need the keyword '$' and the name of the variable.  
+It looks like this $variable  
+  
+To copy a variable you need to specify the variable to copy from and copy to.  
+This copys from x to y '@x,y'  
+You can also copy and delete variable you coppied from with '@d x,y' d stands for delete.  
+
+To delete a variable you use the del keyword followed by the variable name.  
+It looks like this 'del x'.  
+
+
+
+
 
 
