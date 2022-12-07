@@ -85,8 +85,7 @@ you don't use curly brases, you goto stamps, in a loop you go to the start stamp
 the end stamp.  
   
 To create a stamp you use the : keyword followed by the name of the stamp, :stampname.
-You can use goto to jump to that stamp, goto stampname.
-
+You can use goto to jump to that stamp, goto stampname.  
     :stampname  
       (code here)  
     goto stamp
@@ -94,12 +93,16 @@ With stamps you can make a while loop but there is a while loop statement in Mal
 It starts with the while itself, while. Then you need to assert the first variable, then a comparation operator, =, < or > and
 a second variable, then in the second part you need to specify where to goto if true (goto start) and if false (else end), don't
 forget to divide the first and second part with ':'  
-
 It uses this structure:
 
       while x < y: goto start, else end
       :start
       :end
+You also can use goto a line insted of a stamp but this is not recomended at all:  
+
+      goto 1
+This program goes to the first line of the file.  
+
 #### Variables:  
   
 Variables in MaltaLang aren't hard, you can create variables with int, string or float type, use user input to
