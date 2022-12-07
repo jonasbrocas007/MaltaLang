@@ -123,6 +123,8 @@ You can do a few things to manage this memory, there is a garbage collector but 
 it's like that because of two reasons, having a garbage collector running all the time is slower and you cannot manage memory
 mannualy if you want, so in MaltaLang it needs to be called so **you** can manage the memory yourself deleting and copying the variables
 when they are not needed anymore, because the memory is stored in a list that is the only thing you need to do to manage your memory.  
+  
+You can see the **ALLVARLIST** using the 'mem' keyword.  
 
 
 
